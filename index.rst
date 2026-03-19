@@ -1,1 +1,4 @@
-something
+Konfiguracja bazy danych
+===========================
+
+
