@@ -1,28 +1,38 @@
 Konfiguracja bazy danych
-=========================
+========================
 
-Wstępne kroki
--------------
+Wstęp
+-----
 
-- Cel rozdziału
-- Zakres konfiguracji (środowiska: dev, test, prod)
-- Wymagania wstępne
+Rozdział opisuje uniwersalną konfigurację połączenia z bazą danych w środowiskach dev, test i prod.
+Parametry różnią się w zależności od silnika DB (MySQL, PostgreSQL) i środowiska. Poniżej przedstawiono
+podejście ogólne, niezależne od technologii.
 
+**Wymagania:**
 
-Podstawowe parametry konfiguracyjne
------------------------------------
+* dostęp do instancji bazy,
+* zmienne środowiskowe,
+* narzędzia projektowe.
 
-- Host, port, nazwa bazy, użytkownik, hasło
-- Różnice między systemami baz danych (MySQL, PostgreSQL)
-- Zarządzanie sekretami (zmienne środowiskowe)
+Podstawowe parametry
+--------------------
 
+Każde połączenie wymaga:
 
-Struktura plików konfiguracyjnych
----------------------------------
+* hosta i portu,
+* nazwy bazy,
+* użytkownika i hasła.
 
-- Główne pliki konfiguracyjne (np. ``.env``, ``config.yaml``)
-- Organizacja w projekcie
-- Przykład struktury katalogów::
+Dane wrażliwe (np. hasła) przechowuj w **zmiennych środowiskowych** – to oddziela konfigurację od kodu.
+Pamiętaj: zmienne środowiskowe nie są mechanizmem bezpieczeństwa; w produkcji uzupełnij je o dedykowane
+zarządzanie sekretami.
+
+Struktura plików
+----------------
+
+Konfiguracja = część wspólna + środowiskowa.
+
+Przykład::
 
     projekt/
     ├── config/
@@ -31,52 +41,53 @@ Struktura plików konfiguracyjnych
     │   └── shared/
     └── .env.example
 
+Plik ``.env.example`` zawiera tylko przykładowe wartości (bez sekretów).
 
 Środowiska i profile
 --------------------
 
-- Konfiguracja dla development, test, production
-- Mechanizm przełączania środowisk
-- Wykorzystanie zmiennych środowiskowych
+Przełączanie środowisk realizuj przez:
 
+* zmienne środowiskowe,
+* profile konfiguracyjne,
+* osobne pliki dla dev/test/prod.
 
-Automatyzacja i narzędzia
--------------------------
+Automatyzacja
+-------------
 
-- Walidacja konfiguracji (skrypty sprawdzające)
-- Generowanie dokumentacji za pomocą Sfina
-- Integracja z CI/CD
+Zalecenia:
 
+* walidacja konfiguracji przy starcie,
+* skrypty sprawdzające kompletność,
+* integracja z CI/CD.
 
-Przykłady praktyczne
---------------------
+Dokumentację generuj automatycznie (Sphinx).
 
-Przykład dla MySQL::
+Przykłady
+---------
 
-   DB_HOST=localhost
-   DB_PORT=3306
-   DB_NAME=aplikacja
-   DB_USER=app_user
-   DB_PASSWORD=${DB_PASSWORD}
+**MySQL (.env)** ::
 
-Przykład dla PostgreSQL::
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_NAME=aplikacja
+    DB_USER=app_user
+    DB_PASSWORD=${DB_PASSWORD}
 
-   DATABASE_URL=postgresql://user:${DB_PASSWORD}@localhost:5432/aplikacja
+**PostgreSQL (URL)** ::
 
+    DATABASE_URL=postgresql://user:${DB_PASSWORD}@localhost:5432/aplikacja
 
 Najlepsze praktyki
 ------------------
 
-#. Nigdy nie przechowuj sekretów w plikach wersjonowanych
-#. Używaj plików przykładowych (``.env.example``) zamiast rzeczywistych
-#. Dokumentuj każdy parametr konfiguracyjny
-#. Stosuj spójne nazewnictwo zmiennych
-#. Waliduj konfigurację przed uruchomieniem aplikacji
-
+#. Nie przechowuj sekretów w repozytorium.
+#. Stosuj ``.env.example`` zamiast rzeczywistych danych.
+#. Dokumentuj każdy parametr.
+#. Używaj spójnych nazw zmiennych.
+#. Waliduj konfigurację przed uruchomieniem.
 
 Podsumowanie
 ------------
 
-- Kluczowe wnioski
-- Odnośniki do powiązanej dokumentacji
-- Dalsze kroki
+Poprawna konfiguracja bazy danych zwiększa bezpieczeństwo i przenośność aplikacji.
