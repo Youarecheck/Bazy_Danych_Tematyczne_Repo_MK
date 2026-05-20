@@ -527,3 +527,12 @@ Najlepsze praktyki
 #. Dokumentuj wszystkie mapowania użytkowników.
 #. Regularnie przeglądaj konfigurację dostępu.
 
+
+
+.. admonition:: Opracowanie
+   :class: note
+
+   **Autor:** Michał Kraus 
+   **Przedmiot:** Bazy danych  
+   **Data:** maj 2026
+
